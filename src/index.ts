@@ -1,12 +1,12 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
+import userRoute from './Routes/users';
 
 const server = express();
-const PORT = 3003;
+const PORT = 3004;
 const HOST = 'http://localhost:';
 
-server.get('/', (req: Request, res:Response) => {
-  res.status(200).send({ foo: 'bar' });
-});
+server.use(express.json());
+server.use(userRoute);
 
-server.listen(3003, () => console.log(`Server is running on ${HOST}${PORT}`)
+server.listen(PORT, () => console.log(`Server is running on ${HOST}${PORT}`)
 );
