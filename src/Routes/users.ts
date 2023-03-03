@@ -1,42 +1,16 @@
-import { Request, Response, Router } from 'express';
-import { v4 } from 'uuid';
+import { Router } from 'express';
+import userController from '../controllers/userController';
 
 const userRoute = Router();
 
-// get /users
-userRoute.get('/users', (req:Request, res:Response) => {
-  const users = [{ id: v4(), userName: 'Tabata' }];
-  res.status(200).send({ users });
-});
+userRoute.get('/users', userController.index);
 
-// get /user/:id
-userRoute.get('/users/:uuid', (req:Request<{uuid:string}>, res:Response) => {
-  const { uuid } = req.params;
-  res.status(200).send({ uuid });
-});
+userRoute.get('/users/:uuid', userController.show);
 
-// post /users
-userRoute.post('/users', (req:Request, res:Response) => {
-  const newUser = req.body;
-  console.log(newUser);
+userRoute.post('/users', userController.store);
 
-  res.status(200).send(newUser);
-});
+userRoute.put('/users/:uuid', userController.update);
 
-// put /users/:id
-userRoute.put('/users/:uuid', (req:Request<{uuid:string}>, res:Response) => {
-  const { uuid } = req.params;
-  const userUpdated = req.body;
-
-  userUpdated.uuid = uuid;// acrescenta o id no objeto do body
-
-  res.status(200).send(userUpdated);
-});
-
-// delete /users/:id
-userRoute.delete('/users/:uuid', (req:Request, res:Response) => {
-  const { uuid } = req.params;
-  res.status(200).send({ message: `usuario ${uuid} deletado com sucesso` });
-});
+userRoute.delete('/users/:uuid', userController.delete);
 
 export default userRoute;
